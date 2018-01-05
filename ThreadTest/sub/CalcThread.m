@@ -40,8 +40,9 @@
 
 - (void)calc{
     
-    NSLog(@"executing thread = %@",[NSThread currentThread]);
-
+    NSLog(@"custom thread executing = %@",[NSThread currentThread]);
+    [NSThread sleepForTimeInterval:4];
+//    [NSThread exit];
     NSInteger tempMin = NSIntegerMax;
     NSInteger tempMax = 0;
     for (NSNumber *num in _numbers){
@@ -52,6 +53,7 @@
     }
     _min = tempMin;
     _max = tempMax;
+    NSLog(@"custom thread calc min = %ld, max = %ld",tempMin, tempMax);
 }
 
 @end

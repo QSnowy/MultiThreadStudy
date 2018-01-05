@@ -21,20 +21,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadDidSingle:) name:NSDidBecomeSingleThreadedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillMulti:) name:NSWillBecomeMultiThreadedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:nil];
     
     
     // Do any additional setup after loading the view.
 }
-- (IBAction)startCreateThread:(id)sender {
-    // NSThread
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(threadMethod:) object:@"呵呵哒"];
-    thread.name = @"NSThread";
-    _sysThread = thread;
+- (void)viewDidDisappear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
-    // CalcThread
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - instance create thread
+- (IBAction)instanceCreater:(id)sender {
+    // 警告：线程start后，不能再次调用start
+    NSThread *selectorThread = [[NSThread alloc] initWithTarget:self selector:@selector(threadMethod:) object:@"init with selector"];
+    selectorThread.name = @"init selector thread";
+    [selectorThread start];
+    
+    // 这个方法生成的线程执行速度快哟
+    NSThread *blockThread = [[NSThread alloc] initWithBlock:^{
+        NSLog(@"executing init with block thread = %@", [NSThread currentThread]);
+    }];
+    blockThread.name = @"init block thread";
+    [blockThread start];
+}
+
+- (void)threadMethod:(id)obj{
+    NSLog(@"executing init with selector thread = %@ object = %@", [NSThread currentThread], obj);
+}
+
+#pragma mark - class create thread
+- (IBAction)classCreater:(id)sender {
+    // 创建并自动start，自动exit
+    [NSThread detachNewThreadSelector:@selector(detachThread:) toTarget:self withObject:@"class detach selector thread"];
+    
+    [NSThread detachNewThreadWithBlock:^{
+        // 线程block内代码执行完毕发送线程结束通知，如果另开线程B，不会等B线程结束再发通知的
+        NSLog(@"executing class detach with block thread  = %@",[NSThread currentThread]);
+        [NSThread sleepForTimeInterval:3];
+    }];
+}
+
+- (void)detachThread:(id)obj{
+    NSLog(@"executing class detach with selector thread = %@ obj = %@", [NSThread currentThread], obj);
+}
+#pragma mark - custom create thread
+- (IBAction)customCreate:(id)sender {
+    // 自定义线程子类创建方式
     NSInteger arrCount = 5000000;
     NSMutableArray *numbArr = [NSMutableArray arrayWithCapacity:arrCount];
     for (NSInteger j = 0; j < arrCount; j ++){
@@ -42,45 +80,18 @@
         [numbArr addObject:@(random)];
     }
     CalcThread *calcthread = [[CalcThread alloc] initWithNumbers:numbArr];
-    _calThread = calcthread;
-    [calcthread addObserver:self forKeyPath:@"isFinished" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    
-    
-}
-- (IBAction)threadStart:(id)sender {
-    
-    [_sysThread start];
-    [_calThread start];
-    
-}
-- (IBAction)threadCancel:(id)sender {
-
-    [_sysThread cancel];
-    [_calThread cancel];
-
-}
-- (IBAction)threadExit:(id)sender {
-    //  A线程里面调用[NSThread exit]后终止A线程，不要在主线程执行
-    //    [NSThread exit];
-
-}
-- (void)threadMethod:(id)obj{
-    NSLog(@"executing thread = %@ object = %@", [NSThread currentThread], obj);
+    calcthread.name = @"custom calc thread";
+    [calcthread start];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    NSLog(@"kvc called");
+#pragma mark - thread extension
+- (void)preformOnThread:(id)obj{
+    NSLog(@"perform on thread = %@ obj = %@",[NSThread currentThread], obj);
 }
 
-- (void)dealloc{
-    
-    [_calThread removeObserver:self forKeyPath:@"isFinished"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)performOnMainThread:(id)obj{
+    [NSThread sleepForTimeInterval:2];
+    NSLog(@"perform on main thread = %@",[NSThread currentThread]);
 }
 
 #pragma mark - Notice

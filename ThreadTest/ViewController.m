@@ -22,7 +22,7 @@
 }
 - (void)viewDidAppear:(BOOL)animated{
     NSDate *date = [NSDate date];
-    NSLog(@"end time = %@",date);
+//    NSLog(@"end time = %@",date);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
