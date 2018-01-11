@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSThread   *sysThread;
 @property (nonatomic, strong) CalcThread *calThread;
 
+
 @end
 
 @implementation NSThreadVC

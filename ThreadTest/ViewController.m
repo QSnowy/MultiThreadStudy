@@ -16,12 +16,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _dataArr = [NSArray arrayWithObjects:@"pthead", @"NSThead", @"NSOperation", @"GCD", nil];
+    _dataArr = [NSArray arrayWithObjects:@"NSThead", @"NSOperation", @"GCD", nil];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)viewDidAppear:(BOOL)animated{
-    NSDate *date = [NSDate date];
+//    NSDate *date = [NSDate date];
 //    NSLog(@"end time = %@",date);
 }
 
@@ -41,19 +41,16 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger row = indexPath.row;
     switch (row) {
-        case 0:
-        { [self performSegueWithIdentifier:@"pthread" sender:nil]; }
-            break;
             
-        case 1:
+        case 0:
         { [self performSegueWithIdentifier:@"thread" sender:nil]; }
             break;
             
-        case 2:
+        case 1:
         { [self performSegueWithIdentifier:@"operation" sender:nil]; }
             break;
             
-        case 3:
+        case 2:
         { [self performSegueWithIdentifier:@"gcd" sender:nil]; }
             break;
             

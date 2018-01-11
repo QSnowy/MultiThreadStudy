@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D858BAE72005F65400E90597 /* CustomOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D858BAE62005F65400E90597 /* CustomOperation.m */; };
 		D88D37D81FFC81B600336A30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37D71FFC81B600336A30 /* AppDelegate.m */; };
 		D88D37DB1FFC81B600336A30 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37DA1FFC81B600336A30 /* ViewController.m */; };
 		D88D37DE1FFC81B600336A30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D88D37DC1FFC81B600336A30 /* Main.storyboard */; };
 		D88D37E01FFC81B700336A30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D88D37DF1FFC81B700336A30 /* Assets.xcassets */; };
 		D88D37E31FFC81B700336A30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D88D37E11FFC81B700336A30 /* LaunchScreen.storyboard */; };
 		D88D37E61FFC81B700336A30 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37E51FFC81B700336A30 /* main.m */; };
-		D88D37EE1FFC852C00336A30 /* PThreadVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37ED1FFC852C00336A30 /* PThreadVC.m */; };
 		D88D37F11FFC853F00336A30 /* NSThreadVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37F01FFC853F00336A30 /* NSThreadVC.m */; };
 		D88D37F41FFC855000336A30 /* GCDVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37F31FFC855000336A30 /* GCDVC.m */; };
 		D88D37F71FFCC78000336A30 /* CalcThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D88D37F61FFCC78000336A30 /* CalcThread.m */; };
@@ -21,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D858BAE52005F65400E90597 /* CustomOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomOperation.h; sourceTree = "<group>"; };
+		D858BAE62005F65400E90597 /* CustomOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomOperation.m; sourceTree = "<group>"; };
 		D88D37D31FFC81B600336A30 /* ThreadTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThreadTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88D37D61FFC81B600336A30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D88D37D71FFC81B600336A30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -31,8 +33,6 @@
 		D88D37E21FFC81B700336A30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D88D37E41FFC81B700336A30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D88D37E51FFC81B700336A30 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D88D37EC1FFC852C00336A30 /* PThreadVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PThreadVC.h; sourceTree = "<group>"; };
-		D88D37ED1FFC852C00336A30 /* PThreadVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PThreadVC.m; sourceTree = "<group>"; };
 		D88D37EF1FFC853F00336A30 /* NSThreadVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSThreadVC.h; sourceTree = "<group>"; };
 		D88D37F01FFC853F00336A30 /* NSThreadVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSThreadVC.m; sourceTree = "<group>"; };
 		D88D37F21FFC855000336A30 /* GCDVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCDVC.h; sourceTree = "<group>"; };
@@ -77,14 +77,12 @@
 				D88D37D71FFC81B600336A30 /* AppDelegate.m */,
 				D88D37D91FFC81B600336A30 /* ViewController.h */,
 				D88D37DA1FFC81B600336A30 /* ViewController.m */,
-				D88D37EC1FFC852C00336A30 /* PThreadVC.h */,
-				D88D37ED1FFC852C00336A30 /* PThreadVC.m */,
 				D88D37EF1FFC853F00336A30 /* NSThreadVC.h */,
 				D88D37F01FFC853F00336A30 /* NSThreadVC.m */,
-				D88D37F21FFC855000336A30 /* GCDVC.h */,
-				D88D37F31FFC855000336A30 /* GCDVC.m */,
 				D88D37F81FFDC17D00336A30 /* OperationVC.h */,
 				D88D37F91FFDC17D00336A30 /* OperationVC.m */,
+				D88D37F21FFC855000336A30 /* GCDVC.h */,
+				D88D37F31FFC855000336A30 /* GCDVC.m */,
 				D88D37FC1FFDC2E400336A30 /* sub */,
 				D88D37DC1FFC81B600336A30 /* Main.storyboard */,
 				D88D37DF1FFC81B700336A30 /* Assets.xcassets */,
@@ -100,6 +98,8 @@
 			children = (
 				D88D37F51FFCC78000336A30 /* CalcThread.h */,
 				D88D37F61FFCC78000336A30 /* CalcThread.m */,
+				D858BAE52005F65400E90597 /* CustomOperation.h */,
+				D858BAE62005F65400E90597 /* CustomOperation.m */,
 			);
 			path = sub;
 			sourceTree = "<group>";
@@ -175,6 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D858BAE72005F65400E90597 /* CustomOperation.m in Sources */,
 				D88D37F71FFCC78000336A30 /* CalcThread.m in Sources */,
 				D88D37DB1FFC81B600336A30 /* ViewController.m in Sources */,
 				D88D37FA1FFDC17D00336A30 /* OperationVC.m in Sources */,
@@ -182,7 +183,6 @@
 				D88D37E61FFC81B700336A30 /* main.m in Sources */,
 				D88D37F41FFC855000336A30 /* GCDVC.m in Sources */,
 				D88D37D81FFC81B600336A30 /* AppDelegate.m in Sources */,
-				D88D37EE1FFC852C00336A30 /* PThreadVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

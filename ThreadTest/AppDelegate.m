@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    NSDate *date = [NSDate date];
+//    NSDate *date = [NSDate date];
 //    NSLog(@"start time = %@",date);
     return YES;
 }
