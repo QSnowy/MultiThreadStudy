@@ -28,4 +28,11 @@
     NSLog(@"custom operation cancel");
 }
 
+- (void)loadImageView:(UIImageView *)imageView url:(NSURL *)url{
+    [self start];
+    NSData *imgData = [NSData dataWithContentsOfURL:url];
+    [imageView performSelectorOnMainThread:@selector(setImage:) withObject:[UIImage imageWithData:imgData] waitUntilDone:NO];
+    
+}
+
 @end

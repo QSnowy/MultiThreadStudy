@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface CustomOperation : NSOperation
+
+- (void)loadImageView:(UIImageView *)imageView url:(NSURL *)url;
 
 @end

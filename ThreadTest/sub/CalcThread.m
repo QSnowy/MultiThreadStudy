@@ -25,16 +25,19 @@
 
 - (void)main{
     [super main];
+    NSLog(@"calc thread main");
     [self calc];
 
 }
 - (void)start{
     [super start];
+    NSLog(@"calc thread start");
     
 }
 
 - (void)cancel{
     [super cancel];
+    NSLog(@"calc thread cancel");
 }
 
 

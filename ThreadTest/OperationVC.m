@@ -15,8 +15,9 @@
 @property (nonatomic, strong) NSBlockOperation *blockOperation;
 @property (nonatomic, strong) CustomOperation *customOperation;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *images;
-
 @property (nonatomic, strong) NSArray *imageUrls;
+
+@property (nonatomic, strong) NSOperationQueue *backQueue;
 @end
 
 @implementation OperationVC
@@ -24,10 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSOperationQueue *backQueue = [[NSOperationQueue alloc] init];
-    backQueue.qualityOfService = NSQualityOfServiceBackground;
-    backQueue.maxConcurrentOperationCount = 1;
-    __weak typeof(self) weakSelf = self;
+
 
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 1; i < 5; i ++){
@@ -37,13 +35,8 @@
 
     }
     _imageUrls = array;
+    
 
-    for (int i = 0; i < 4; i ++) {
-        NSBlockOperation *block = [NSBlockOperation blockOperationWithBlock:^{
-            [weakSelf loadImageWithIndex:i];
-        }];
-        [backQueue addOperation:block];
-    }
 
 }
 - (IBAction)createOperation:(id)sender {
@@ -69,11 +62,11 @@
                 
                 __weak typeof(self) weakSelf = self;
                 [_blockOperation addExecutionBlock:^{
-                    [weakSelf loadImageWithIndex:1];
+                    [weakSelf loadImageWithIndex:1 block:nil];
                     NSLog(@"this is block operation execut 1, thread = %@", [NSThread currentThread]);
                 }];
                 [_blockOperation addExecutionBlock:^{
-                    [weakSelf loadImageWithIndex:2];
+                    [weakSelf loadImageWithIndex:2 block:nil];
                     NSLog(@"this block operation execut 2 ,thread = %@",[NSThread currentThread]);
                 }];
             }
@@ -138,7 +131,8 @@
                 [self presentViewController:alert animated:YES completion:nil];
                 return;
             }
-            [_customOperation start];
+//            [_customOperation start];
+            [_customOperation loadImageView:self.images.lastObject url:[NSURL URLWithString:self.imageUrls.lastObject]];
         }
             break;
             
@@ -175,19 +169,71 @@
     }
     
 }
+- (IBAction)createQueue:(id)sender {
+    _backQueue = nil;
+    
+    _backQueue = [[NSOperationQueue alloc] init];
+    _backQueue.qualityOfService = NSQualityOfServiceDefault;
+    __weak typeof(self) weakSelf = self;    __block NSBlockOperation *first = nil;
+    for (int i = 0; i < 4; i ++) {
+        NSBlockOperation *block = [[NSBlockOperation alloc] init];
+        block.name = [NSString stringWithFormat:@"operation_%ld", (long)i];
+        __weak typeof(block) weakBlock = block;
+        [block addExecutionBlock:^{
+            // block 只有再这个任务将要start时，这里的代码才会执行
+            [NSThread sleepForTimeInterval:i == 2 ? 3 : 1];
+            [weakSelf loadImageWithIndex:i block:weakBlock];
+            
+        }];
+        if (i == 2){
+            first = block;
+        }
+        if (first != nil && i != 2){
+            // 依赖必须必须不为nil
+            [block addDependency:first];
+        }
+        [_backQueue addOperation:block];
+    }
+    /*
+     阻塞线程
+     [_backQueue waitUntilAllOperationsAreFinished];
+     NSLog(@"把当前线程阻塞，然后真滴要结束了");
+     */
+
+}
+
+
+
+- (IBAction)cancelQueue:(id)sender {
+    if (_backQueue){
+        [_backQueue cancelAllOperations];
+    }
+}
+- (IBAction)clearImages:(id)sender {
+    
+    for (UIImageView *imageView in self.images) {
+        imageView.image = nil;
+    }
+    
+    [_backQueue waitUntilAllOperationsAreFinished];
+}
 
 - (void)invocation:(id)obj{
-    [self loadImageWithIndex:0];
+    [self loadImageWithIndex:0 block:nil];
     NSLog(@"this is invocation operation mehtod body, thread = %@",[NSThread currentThread]);
 }
 
-- (void)loadImageWithIndex:(NSInteger)index{
-    NSLog(@"加载图片任务 thread = %@", [NSThread currentThread]);
+- (void)loadImageWithIndex:(NSInteger)index block:(NSBlockOperation *)block{
+    NSLog(@"加载图片任务 thread = %@, block operation = %@", [NSThread currentThread], block.name);
     
     UIImageView *imageView = [self.images objectAtIndex:index];
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.imageUrls[index]]];
     // 在主线程加载图片
     [imageView performSelectorOnMainThread:@selector(setImage:) withObject:[UIImage imageWithData:imageData] waitUntilDone:NO];
+    
+    if ([block.name isEqualToString:@"operation_3"]){
+        NSLog(@"队列所有任务完成了");
+    }
 }
 
 - (void)didReceiveMemoryWarning {
