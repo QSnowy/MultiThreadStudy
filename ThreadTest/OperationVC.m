@@ -32,7 +32,6 @@
         // @"http://cowo123.com/wp-content/uploads/2018/01/head_03.png"
         NSString *url = [NSString stringWithFormat:@"http://cowo123.com/wp-content/uploads/2018/01/head_0%ld.png",(long)i];
         [array addObject:url];
-
     }
     _imageUrls = array;
     
@@ -187,7 +186,9 @@
         }];
         if (i == 2){
             first = block;
+
         }
+
         if (first != nil && i != 2){
             // 依赖必须必须不为nil
             [block addDependency:first];
